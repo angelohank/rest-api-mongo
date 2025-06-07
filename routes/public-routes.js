@@ -25,7 +25,32 @@ router.post('/cadastro', async (req, res) => {
 
         res.status(201).json(user)
     } catch(err) {
-        res.status(500).json({message: err})
+        res.status(500).json({message: "Erro no servidor, tente novamente"})
+    }
+    
+})
+
+router.post('/login', async (req, res) => {
+    try {
+        const userInfo = req.body
+
+        const user = await prisma.user.findUnique({
+            where: { email: userInfo.email }, 
+        })
+
+        if(!user) {
+            return res.status(404).json({message: "Usuário não encontrado"})
+        }
+
+        const isMatch = await bcrypt.compare(userInfo.password, user.password)
+        if(!isMatch) {
+            return res.status(401).json({message: "Senha incorreta"}) 
+        }
+
+        res.status(200).json(user)
+
+    } catch(err) {
+        res.status(500).json({message: "Erro no servidor, tente novamente"})
     }
     
 })
