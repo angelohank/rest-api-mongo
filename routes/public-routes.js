@@ -49,7 +49,7 @@ router.post('/login', async (req, res) => {
         }
 
         //define por quanto tempo o token tera validade
-        const token = jwt.sign({id: user.id}, jwt_secret, {expiresIn: '1m'})
+        const token = jwt.sign({id: user.id}, jwt_secret, {expiresIn: '2m'})
         res.status(200).json(token)
 
     } catch(err) {
