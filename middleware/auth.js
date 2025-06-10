@@ -2,10 +2,9 @@ import jwt from 'jsonwebtoken'
 
 const jwt_secret = process.env.JWT_SECRET
 
-//esse eh o middleware
 const auth = (req, res, next) => {
     const token = req.headers.authorization
-
+    
     if(!token) {
         return res.status(401).json({message: "Usuário não autorizado"})
     }
